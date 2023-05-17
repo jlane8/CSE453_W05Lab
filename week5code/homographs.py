@@ -49,16 +49,22 @@
 import unicodedata
 
 def canonicalize_sequence(sequence):
-    return unicodedata.normalize('NFC', sequence)
+    print("canonicalize_sequence")
+    canon = unicodedata.normalize('NFC', sequence)
+    canon = canon.lower()
+    print(canon)
+    return canon
 
 def is_homograph(sequence1, sequence2): 
     if len(sequence1) < len(sequence2):
         sequence2 = sequence2[-len(sequence1):]
-        print(sequence2)
+        print(f"{sequence2=}")
+        print(f"{sequence1=}")
         return canonicalize_sequence(sequence1) == canonicalize_sequence(sequence2)
     if len(sequence2) < len(sequence1):
         sequence1 = sequence1[-len(sequence2):]
-        print(sequence1)
+        (f"{sequence2=}")
+        (f"{sequence1=}")
         return canonicalize_sequence(sequence1) == canonicalize_sequence(sequence2)
 
 def main():
@@ -69,6 +75,9 @@ def main():
     
     sequence1 = input("Specify the first filename: ")
     sequence2 = input("Specify the second filename: ")
+    print(f"{sequence2=}")
+    print(f"{sequence1=}")
+    
     # Check if the sequences are homographs
     if is_homograph(sequence1, sequence2):
         print("The sequences are homographs.")
