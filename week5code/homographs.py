@@ -91,7 +91,7 @@ testcases = []
 def test_case1():
     print("-----------------------------------------------------") 
     print("TEST CASE 1")
-    sequence1 = "TEST.t><t"
+    sequence1 = "TESTING.txt"
     print("Specify the first filename: test.txt")
     sequence2 = "../../cse453/week05/test.txt"
     print("Specify the second filename: ../../cse453/week05/test.txt")
