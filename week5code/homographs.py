@@ -49,22 +49,22 @@
 import unicodedata
 
 def canonicalize_sequence(sequence):
-    print("canonicalize_sequence")
-    canon = unicodedata.normalize('NFC', sequence)
+    # print("canonicalize_sequence")
+    canon = unicodedata.normalize('NFKC', sequence)
     canon = canon.lower()
-    print(canon)
+    # print(canon)
     return canon
 
 def is_homograph(sequence1, sequence2): 
     if len(sequence1) < len(sequence2):
         sequence2 = sequence2[-len(sequence1):]
-        print(f"{sequence2=}")
-        print(f"{sequence1=}")
+        # print(f"{sequence2=}")
+        # print(f"{sequence1=}")
         return canonicalize_sequence(sequence1) == canonicalize_sequence(sequence2)
     if len(sequence2) < len(sequence1):
         sequence1 = sequence1[-len(sequence2):]
-        (f"{sequence2=}")
-        (f"{sequence1=}")
+        # (f"{sequence2=}")
+        # (f"{sequence1=}")
         return canonicalize_sequence(sequence1) == canonicalize_sequence(sequence2)
 
 def main():
@@ -84,5 +84,92 @@ def main():
     else:
         print("The sequences are not homographs.")
     
-if __name__ == "__main__":
-    main()
+
+
+testcases = []   
+#TEST CASES
+def test_case1():
+    print("-----------------------------------------------------") 
+    print("TEST CASE 1")
+    sequence1 = "TEST.t><t"
+    print("Specify the first filename: test.txt")
+    sequence2 = "../../cse453/week05/test.txt"
+    print("Specify the second filename: ../../cse453/week05/test.txt")
+    is_homograph_bool = is_homograph(sequence1, sequence2)
+    # Check if the sequences are homographs
+    if is_homograph_bool:
+        print("The sequences are homographs.")
+    else:
+        print("The sequences are not homographs.")
+    if is_homograph_bool == False:
+        testcases.append("Test case 1: PASSED")
+    if is_homograph_bool == True:
+        testcases.append("Test Case 1: NOT PASSED.")
+    print("-----------------------------------------------------")
+        
+def test_case2():
+    print("TEST CASE 2")
+    sequence1 = "test.txt"
+    print("Specify the first filename: test.txt")
+    sequence2 = "../../cse453/week05/test.txt"
+    print("Specify the second filename: ../../cse453/week05/test.txt")
+    is_homograph_bool = is_homograph(sequence1, sequence2)
+    # Check if the sequences are homographs
+    if is_homograph_bool:
+        print("The sequences are homographs.")
+    else:
+        print("The sequences are not homographs.")
+    if is_homograph_bool == True:
+        testcases.append("Test case 2: PASSED")
+    if is_homograph_bool == False:
+        testcases.append("Test Case 2: NOT PASSED.")
+    print("-----------------------------------------------------") 
+      
+def test_case3():
+    print("TEST CASE 3")
+    sequence1 = "TEST.txt"
+    print("Specify the first filename: test.txt")
+    sequence2 = "../../cse453/week05/test.txt"
+    print("Specify the second filename: ../../cse453/week05/test.txt")
+    is_homograph_bool = is_homograph(sequence1, sequence2)
+    # Check if the sequences are homographs
+    if is_homograph_bool:
+        print("The sequences are homographs.")
+    else:
+        print("The sequences are not homographs.")
+    if is_homograph_bool == True:
+        testcases.append("Test case 3: PASSED")
+    if is_homograph_bool == False:
+        testcases.append("Test Case 3: NOT PASSED.")
+def test_case4():
+    print("TEST CASE 4")
+    sequence1 = "TEST.tⅩt"
+    print("Specify the first filename: test.tⅩt")
+    sequence2 = "../../cse453/week05/test.txt"
+    print("Specify the second filename: ../../cse453/week05/test.txt")
+    is_homograph_bool = is_homograph(sequence1, sequence2)
+    # Check if the sequences are homographs
+    if is_homograph_bool:
+        print("The sequences are homographs.")
+    else:
+        print("The sequences are not homographs.")
+    if is_homograph_bool == True:
+        testcases.append("Test case 4: PASSED")
+    if is_homograph_bool == False:
+        testcases.append("Test Case 4: NOT PASSED.")
+    print("-----------------------------------------------------") 
+    
+print("-----------------------------------------------------")
+print("NON-HOMOGRAPHS")             
+test_case1()
+print("HOMOGRAPHS")
+print("-----------------------------------------------------")
+test_case2()
+test_case3()
+test_case4()
+
+for test in testcases:
+    print(test)
+print("-----------------------------------------------------") 
+# if __name__ == "__main__":
+#     main()
