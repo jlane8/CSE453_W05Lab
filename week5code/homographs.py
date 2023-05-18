@@ -57,12 +57,14 @@ def canonicalize_sequence(sequence):
 
 def is_homograph(sequence1, sequence2): 
     if len(sequence1) < len(sequence2):
-        sequence2 = sequence2[-len(sequence1):]
+        sequence2 = sequence2[(-len(sequence1)+1):]
+        sequence1 = sequence1[1:]
         # print(f"{sequence2=}")
         # print(f"{sequence1=}")
         return canonicalize_sequence(sequence1) == canonicalize_sequence(sequence2)
     if len(sequence2) < len(sequence1):
-        sequence1 = sequence1[-len(sequence2):]
+        sequence1 = sequence1[(-len(sequence2)+1):]
+        sequence2 = sequence2[1:]
         # (f"{sequence2=}")
         # (f"{sequence1=}")
         return canonicalize_sequence(sequence1) == canonicalize_sequence(sequence2)
@@ -92,7 +94,7 @@ def test_case1():
     print("-----------------------------------------------------") 
     print("TEST CASE 1")
     sequence1 = "TESTING.txt"
-    print("Specify the first filename: test.txt")
+    print("Specify the first filename: TESTING.txt")
     sequence2 = "../../cse453/week05/test.txt"
     print("Specify the second filename: ../../cse453/week05/test.txt")
     is_homograph_bool = is_homograph(sequence1, sequence2)
@@ -128,7 +130,7 @@ def test_case2():
 def test_case3():
     print("TEST CASE 3")
     sequence1 = "TEST.txt"
-    print("Specify the first filename: test.txt")
+    print("Specify the first filename: TEST.txt")
     sequence2 = "../../cse453/week05/test.txt"
     print("Specify the second filename: ../../cse453/week05/test.txt")
     is_homograph_bool = is_homograph(sequence1, sequence2)
@@ -141,6 +143,8 @@ def test_case3():
         testcases.append("Test case 3: PASSED")
     if is_homograph_bool == False:
         testcases.append("Test Case 3: NOT PASSED.")
+    print("-----------------------------------------------------")
+        
 def test_case4():
     print("TEST CASE 4")
     sequence1 = "TEST.tⅩt"
@@ -158,6 +162,24 @@ def test_case4():
     if is_homograph_bool == False:
         testcases.append("Test Case 4: NOT PASSED.")
     print("-----------------------------------------------------") 
+
+def test_case5():
+    print("TEST CASE 5")
+    sequence1 = "home/user/secret/"
+    print("Specify the first filename: home/user/secret/")
+    sequence2 = "~/user/secret/"
+    print("Specify the second filename: ~/user/secret/")
+    is_homograph_bool = is_homograph(sequence1, sequence2)
+    # Check if the sequences are homographs
+    if is_homograph_bool:
+        print("The sequences are homographs.")
+    else:
+        print("The sequences are not homographs.")
+    if is_homograph_bool == True:
+        testcases.append("Test case 5: PASSED")
+    if is_homograph_bool == False:
+        testcases.append("Test Case 5: NOT PASSED.")
+    print("-----------------------------------------------------") 
     
 print("-----------------------------------------------------")
 print("NON-HOMOGRAPHS")             
@@ -167,9 +189,10 @@ print("-----------------------------------------------------")
 test_case2()
 test_case3()
 test_case4()
+test_case5()
 
 for test in testcases:
     print(test)
 print("-----------------------------------------------------") 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
