@@ -49,26 +49,64 @@
 import unicodedata
 
 def canonicalize_sequence(sequence):
-    # print(f"canonicalize_sequence = {sequence}")
+    # print("canonicalize_sequence")
     canon = unicodedata.normalize('NFKC', sequence)
     canon = canon.lower()
-    # print(f"Canon = {canon}")
+    # print(canon)
     return canon
 
+# def is_homograph(sequence1, sequence2): 
+#     if len(sequence1) < len(sequence2):
+#         sequence2 = sequence2[(-len(sequence1)+1):]
+#         sequence1 = sequence1[1:]
+#         print(f"{sequence2=}")
+#         print(f"{sequence1=}")
+#         return canonicalize_sequence(sequence1) == canonicalize_sequence(sequence2)
+#     if len(sequence2) < len(sequence1):
+#         sequence1 = sequence1[(-len(sequence2)+1):]
+#         sequence2 = sequence2[1:]
+#         print(f"{sequence2=}")
+#         print(f"{sequence1=}")
+#         return canonicalize_sequence(sequence1) == canonicalize_sequence(sequence2)
+    
+def is_homograph(file_path, test_cases):
+    """
+    Splits up the test path so it can be iterated through and checks to see if it is 
+    the same as the given file path. Then it will return whether or not they are 
+    homographs.
+    
+    Keyword arguments:
+    Perameters: file_path, test_cases
+    Return: return_description
+    """
+    
+    case_split = test_cases.split("/")
+    new_list = []
+    new_path = ""
 
-def is_homograph(sequence1, sequence2): 
-    if len(sequence1) < len(sequence2):
-        sequence2 = sequence2[(-len(sequence1)+1):]
-        sequence1 = sequence1[1:]
-        # print(f"{sequence2=}")
-        # print(f"{sequence1=}")
-        return canonicalize_sequence(sequence1) == canonicalize_sequence(sequence2)
-    if len(sequence2) < len(sequence1):
-        sequence1 = sequence1[(-len(sequence2)+1):]
-        sequence2 = sequence2[1:]
-        # print(f"{sequence2=}")
-        # print(f"{sequence1=}")
-        return canonicalize_sequence(sequence1) == canonicalize_sequence(sequence2)
+    # Enumerates through the test path and compensates for special characters
+    # ., .., and ~
+    for i, string in enumerate(case_split):
+        if string == ".." and i != 0:
+            new_list.pop()
+        elif string == "..":
+            new_list = []
+        elif i == 0 and string == ".":
+            new_list.append("home")
+        elif string == "~":
+            new_list = []
+            new_list.append("home")
+        elif string != ".":
+            new_list.append(string)
+
+    # Creates a new path to be used for comparing against the given file path.
+    for i, string in enumerate(new_list):
+        if i < len(new_list) - 1:
+            new_path += string + "/"
+        else:
+            new_path += string
+
+    return canonicalize_sequence(file_path) == canonicalize_sequence(new_path)
 
 
 def main():
@@ -120,17 +158,17 @@ def get_homographs():
     """
     # set test cases for both homographs and non-homographs
     homograph_testcases = [
-        ["root/home/cse453/week05/", "~/cse453/week05/"],
-        ["root/home/cse453/week05/", "./cse453/week05/"],
-        ["root/home/cse453/week05/", "./cse453/../cse453/week05/"],
-        ["root/home/cse453/week05/", "~/cse453/../../home/cse453/week05/"],
-        ["root/home/cse453/week05/", "../home/cse453/../cse453/week05/"],
-        ["root/home/cse453/week05/", "../home/../~/./cse453/week05/"],
-        ["root/home/cse453/week05/", "./cse453/./~/cse453/week05/"],
-        ["root/home/cse453/week05/", "~/cse453/./week05/"],
-        ["root/home/cse453/week05/", "../home/./cse453/./week05/"],
-        ["root/home/cse453/week05/", "~/../home/./cse453/week05/"],
-        ["root/home/cse453/week05/", "./cse453/./week05/"]
+        ["home/cse453/week05/test.txt", "~/cse453/week05/test.txt"],
+        ["home/cse453/week05/test.txt", "./cse453/week05/test.txt"],
+        ["home/cse453/week05/test.txt", "./cse453/../cse453/week05/test.txt"],
+        ["home/cse453/week05/test.txt", "~/cse453/../../home/cse453/week05/test.txt"],
+        ["home/cse453/week05/test.txt", "../home/cse453/../cse453/week05/test.txt"],
+        ["home/cse453/week05/test.txt", "../home/../~/./cse453/week05/test.txt"],
+        ["home/cse453/week05/test.txt", "./cse453/./~/cse453/week05/test.txt"],
+        ["home/cse453/week05/test.txt", "~/cse453/./week05/test.txt"],
+        ["home/cse453/week05/test.txt", "../home/./cse453/./week05/test.txt"],
+        ["home/cse453/week05/test.txt", "~/../home/./cse453/week05/test.txt"],
+        ["home/cse453/week05/test.txt", "./cse453/./week05/test.txt"]
     ]
     return homograph_testcases
 
